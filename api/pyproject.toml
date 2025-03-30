@@ -10,6 +10,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 package-mode = false
 
+[[tool.poetry.source]]
+name = "tsinghua"  # 自定义镜像名称
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+
 ############################################################
 # [ Main ] Dependency group
 ############################################################

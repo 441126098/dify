@@ -2,6 +2,9 @@
 
 npm add -g pnpm@9.12.2
 cd web && pnpm install
+
+# 给pipx 配置国内源
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 pipx install poetry
 
 echo 'alias start-api="cd /workspaces/dify/api && poetry run python -m flask run --host 0.0.0.0 --port=5001 --debug"' >> ~/.bashrc
