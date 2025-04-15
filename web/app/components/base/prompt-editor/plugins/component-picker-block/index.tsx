@@ -141,51 +141,52 @@ const ComponentPicker = ({
                   visibility: isPositioned ? 'visible' : 'hidden',
                 }}
                 ref={refs.setFloating}
+                data-testid="component-picker-container"
               >
                 {
-                  options.map((option, index) => (
-                    <Fragment key={option.key}>
-                      {
-                        // Divider
-                        index !== 0 && options.at(index - 1)?.group !== option.group && (
-                          <div className='my-1 h-px w-full -translate-x-1 bg-divider-subtle'></div>
-                        )
-                      }
-                      {option.renderMenuOption({
-                        queryString,
-                        isSelected: selectedIndex === index,
-                        onSelect: () => {
-                          selectOptionAndCleanUp(option)
-                        },
-                        onSetHighlight: () => {
-                          setHighlightedIndex(index)
-                        },
-                      })}
-                    </Fragment>
-                  ))
-                }
-                {
                   workflowVariableBlock?.show && (
-                    <>
-                      {
-                        (!!options.length) && (
-                          <div className='my-1 h-px w-full -translate-x-1 bg-divider-subtle'></div>
-                        )
-                      }
-                      <div className='p-1'>
-                        <VarReferenceVars
-                          hideSearch
-                          vars={workflowVariableOptions}
-                          onChange={(variables: string[]) => {
-                            handleSelectWorkflowVariable(variables)
-                          }}
-                          maxHeightClass='max-h-[34vh]'
-                          isSupportFileVar={isSupportFileVar}
-                        />
-                      </div>
-                    </>
+                    <div className='p-1'>
+                      <VarReferenceVars
+                        searchBoxClassName='mt-1'
+                        vars={workflowVariableOptions}
+                        onChange={(variables: string[]) => {
+                          handleSelectWorkflowVariable(variables)
+                        }}
+                        maxHeightClass='max-h-[34vh]'
+                        isSupportFileVar={isSupportFileVar}
+                      />
+                    </div>
                   )
                 }
+                {
+                  workflowVariableBlock?.show && !!options.length && (
+                    <div className='my-1 h-px w-full -translate-x-1 bg-divider-subtle'></div>
+                  )
+                }
+                <div data-testid="options-list">
+                  {
+                    options.map((option, index) => (
+                      <Fragment key={option.key}>
+                        {
+                          // Divider
+                          index !== 0 && options.at(index - 1)?.group !== option.group && (
+                            <div className='my-1 h-px w-full -translate-x-1 bg-divider-subtle'></div>
+                          )
+                        }
+                        {option.renderMenuOption({
+                          queryString,
+                          isSelected: selectedIndex === index,
+                          onSelect: () => {
+                            selectOptionAndCleanUp(option)
+                          },
+                          onSetHighlight: () => {
+                            setHighlightedIndex(index)
+                          },
+                        })}
+                      </Fragment>
+                    ))
+                  }
+                </div>
               </div>
             </div>,
             anchorElementRef.current,
