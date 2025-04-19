@@ -31,6 +31,7 @@ import { useOptions } from './hooks'
 import type { PickerBlockMenuOption } from './menu'
 import VarReferenceVars from '@/app/components/workflow/nodes/_base/components/variable/var-reference-vars'
 import { useEventEmitterContextContext } from '@/context/event-emitter'
+import { KEY_ESCAPE_COMMAND } from 'lexical'
 
 type ComponentPickerProps = {
   triggerString: string
@@ -118,6 +119,11 @@ const ComponentPicker = ({
       editor.dispatchCommand(INSERT_WORKFLOW_VARIABLE_BLOCK_COMMAND, variables)
   }, [editor, checkForTriggerMatch, triggerString])
 
+  const dispatchEscapeCommand = () => {
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' })
+    editor.dispatchCommand(KEY_ESCAPE_COMMAND, escapeEvent)
+  }
+
   const renderMenu = useCallback<MenuRenderFn<PickerBlockMenuOption>>((
     anchorElementRef,
     { options, selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
@@ -154,6 +160,10 @@ const ComponentPicker = ({
                         }}
                         maxHeightClass='max-h-[34vh]'
                         isSupportFileVar={isSupportFileVar}
+                        onClose={dispatchEscapeCommand}
+                        onBlur={() => {
+                          setTimeout(dispatchEscapeCommand, 100)
+                        }}
                       />
                     </div>
                   )

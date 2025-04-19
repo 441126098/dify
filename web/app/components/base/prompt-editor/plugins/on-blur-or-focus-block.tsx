@@ -37,14 +37,16 @@ const OnBlurBlock: FC<OnBlurBlockProps> = ({
       ),
       editor.registerCommand(
         BLUR_COMMAND,
-        () => {
-          ref.current = setTimeout(() => {
-            editor.dispatchCommand(KEY_ESCAPE_COMMAND, new KeyboardEvent('keydown', { key: 'Escape' }))
-          }, 200)
-
-          if (onBlur)
-            onBlur()
-
+        (event) => {
+          // 检查点击的目标元素是否为 var-search-input
+          const target = event?.relatedTarget as HTMLElement
+          if (!target?.classList?.contains('var-search-input')) {
+            ref.current = setTimeout(() => {
+              editor.dispatchCommand(KEY_ESCAPE_COMMAND, new KeyboardEvent('keydown', { key: 'Escape' }))
+            }, 200)
+            if (onBlur)
+              onBlur()
+          }
           return true
         },
         COMMAND_PRIORITY_EDITOR,
